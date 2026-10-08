@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translate AI — Onlayn Tarjimon va Lug'at</title>
+    <meta name="description" content="O'zbekcha, Inglizcha, Ruscha va 30+ jahon tillarida tez va aniq matn tarjimon ilovasi. Ovozli o'qish va izohli lug'at.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-wrapper">
+        <!-- Top Navigation Bar -->
+        <header class="navbar">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m5 8 6 6"/>
+                        <path d="m4 14 6-6 2 3"/>
+                        <path d="M2 5h12"/>
+                        <path d="M7 2h1"/>
+                        <path d="m22 22-5-10-5 10"/>
+                        <path d="M14 18h6"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="brand-title">Translate AI</h1>
+                    <span style="font-size:0.75rem; color:var(--text-dim);">Tezkor & Aqlli Tarjimon</span>
+                </div>
+            </div>
+
+            <nav class="nav-tabs">
+                <button class="nav-tab-btn active" id="navMatn">
+                    <span>📝 Matn</span>
+                </button>
+                <button class="nav-tab-btn" id="navLugat" onclick="document.getElementById('dictSection').scrollIntoView({behavior:'smooth'})">
+                    <span>📖 Lug'at</span>
+                </button>
+                <button class="nav-tab-btn" id="navIboralar" onclick="document.getElementById('phraseSection').scrollIntoView({behavior:'smooth'})">
+                    <span>💬 Iboralar</span>
+                </button>
+                <button class="nav-tab-btn" id="navTarix" onclick="document.getElementById('historySection').scrollIntoView({behavior:'smooth'})">
+                    <span>📜 Tarix</span>
+                </button>
+            </nav>
+
+            <div class="nav-actions">
+                <label for="fileInput" class="icon-btn" title="Matnli Fayl Yuklash (.txt)">
+                    📁
+                    <input type="file" id="fileInput" accept=".txt,.md" style="display:none;">
+                </label>
+                <button class="icon-btn" id="themeBtn" title="Rejimni o'zgartirish">🌙</button>
+            </div>
+        </header>
+
+        <!-- Main Translation Workspace -->
+        <main class="translator-grid">
+            <!-- Source Card -->
+            <div class="trans-card">
+                <div class="card-header">
+                    <div class="lang-tabs" id="sourceTabs">
+                        <button class="lang-btn active" data-lang="auto">Avto Aniqlash</button>
+                        <button class="lang-btn" data-lang="uz">O'zbekcha</button>
+                        <button class="lang-btn" data-lang="en">Inglizcha</button>
+                        <button class="lang-btn" data-lang="ru">Ruscha</button>
+                    </div>
+                    <select class="lang-select" id="sourceLangSelect" title="Manba tili"></select>
+                </div>
+
+                <div class="card-body">
+                    <textarea class="trans-textarea" id="sourceText" placeholder="Matnni shu yerga kiriting yoki ovozli gapiring..." maxlength="5000"></textarea>
+                </div>
+
+                <div class="card-footer">
+                    <div class="footer-actions">
+                        <button class="action-btn" id="speakSourceBtn" title="Ovozli o'qish">🔊</button>
+                        <button class="action-btn" id="micBtn" title="Ovozli kiritish (Mikrofon)">🎙️</button>
+                        <button class="action-btn" id="clearBtn" title="Tozalash">🗑️</button>
+                    </div>
+                    <div class="char-counter" id="charCounter">0 / 5000</div>
+                </div>
+            </div>
+
+            <!-- Swap Button Container -->
+            <div class="swap-container">
+                <button class="swap-btn" id="swapBtn" title="Tillarni almashtirish (Ctrl+Shift+S)">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 16V4M7 4L3 8M7 4L11 8"/>
+                        <path d="M17 8V20M17 20L21 16M17 20L13 16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Target Card -->
+            <div class="trans-card">
+                <div class="card-header">
+                    <div class="lang-tabs" id="targetTabs">
+                        <button class="lang-btn active" data-lang="en">Inglizcha</button>
+                        <button class="lang-btn" data-lang="uz">O'zbekcha</button>
+                        <button class="lang-btn" data-lang="ru">Ruscha</button>
+                        <button class="lang-btn" data-lang="tr">Turkcha</button>
+                    </div>
+                    <select class="lang-select" id="targetLangSelect" title="Tarjima tili"></select>
+                </div>
+
+                <div class="card-body">
+                    <div class="trans-output-box placeholder" id="targetText">Tarjima shu yerda paydo bo'ladi...</div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="footer-actions">
+                        <button class="action-btn" id="speakTargetBtn" title="Ovozli o'qish">🔊</button>
+                        <button class="action-btn" id="copyBtn" title="Nusxa olish">📋</button>
+                        <button class="action-btn" id="downloadBtn" title="Faylni yuklab olish">📥</button>
+                    </div>
+                    <span style="font-size:0.78rem; color:var(--text-dim);">Ctrl + Enter: Tarjima qilish</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Secondary Features Section (Dictionary & Phrasebook) -->
+        <section class="extra-section">
+            <!-- Smart Dictionary Card -->
+            <div class="section-card" id="dictSection">
+                <div class="section-title">
+                    <span>📖 Smart Izohli Lug'at & Sinonimlar</span>
+                </div>
+                <div class="dict-card-body" id="dictCardBody">
+                    <div style="color:var(--text-dim); font-size:0.9rem; font-style:italic; padding-top:20px;">
+                        So'z yoki qisqa ibora kiritsangiz, uning sinonimlari, izohli lug'ati va misollari shu yerda ko'rinadi.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phrasebook Card -->
+            <div class="section-card" id="phraseSection">
+                <div class="section-title">
+                    <span>💬 Ibora Kitobi (Tezkor Muloqot)</span>
+                </div>
+                <div class="phrase-categories" id="phraseCatList"></div>
+                <div class="phrases-grid" id="phraseItemsList"></div>
+            </div>
+        </section>
+
+        <!-- History & Saved Section -->
+        <section class="history-section" id="historySection">
+            <div class="history-header">
+                <div class="section-title" style="margin-bottom:0;">
+                    <span>📜 Oxirgi Tarjimalar Tarixi</span>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" class="search-input" id="historySearch" placeholder="Tarixdan izlash...">
+                    <button class="icon-btn" id="clearHistoryBtn" title="Tarixni tozalash">🗑️</button>
+                </div>
+            </div>
+            <div class="history-list" id="historyList"></div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="dictionary.js"></script>
+    <script src="phrases.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
